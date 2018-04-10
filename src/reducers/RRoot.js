@@ -1,14 +1,13 @@
-// import { ACTION_TYPES, TOTAL_DONATION } from '../helpers';
 
 const initialState = {
-  donate: 0
+  formData: {}
 };
 
 export const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "XXXX":
+    case "SAVE_ACCOUNT_CREATION_DRAFT":
       return Object.assign({}, state, {
-        
+      	formData: action.dataToUpdate
       });
     default: return state;
   }

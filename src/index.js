@@ -4,13 +4,11 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-// import {IntlProvider, FormattedMessage} from 'react-intl';
-import CAccountCreation from './components/CAccountCreation';
-import CHomePage from './components/CHomePage';
 import { rootReducer } from './reducers/RRoot';
+import CAccountCreationHomePage from './components/account_creation/CAccountCreationHomePage';
+import CInvoiceHomePage from './components/invoice_management/CInvoiceHomePage';
 
 const store = createStore(
 	rootReducer,
@@ -21,8 +19,8 @@ render(
 	<MuiThemeProvider>
 	  <Provider store={store}>
 	  <Switch>
-	    <Route exact path="/" component={CHomePage} />
-        <Route path="/list" component={CAccountCreation} />
+	    <Route exact path="/account_creation" component={CAccountCreationHomePage} />
+    	<Route path="/invoice_management" component={CInvoiceHomePage} />    
 	  </Switch>
 	  </Provider>
 	</MuiThemeProvider>

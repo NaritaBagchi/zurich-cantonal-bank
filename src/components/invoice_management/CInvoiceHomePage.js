@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
 
 import { Tabs, Tab } from 'material-ui/Tabs';
 
 import CInvoiceForm from './sections/CInvoiceForm';
+import CInvoiceListing from './sections/CInvoiceListing';
+
+import * as actions from '../../actions/invoice_management/InvoiceManagementActions';
 
 const HomePageContainer = styled.div`
     height: 100vh;
@@ -16,7 +22,6 @@ const HomePageContainer = styled.div`
 `;
 
 const DockerDiv = styled.div`
-	height: 85vh;
 	width: 70vw;
 	background: aliceblue;
 	border-radius: 0px;
@@ -31,23 +36,24 @@ const styles = {
   },
 };
 
-export default class CInvoiceHomePage extends Component {
+export class CInvoiceHomePage extends Component {
+
+	componentDidMount() {
+    	this.props.actions.fetchInvoiceList();
+  	}
+
 	render() {
 
 		return(
 			<HomePageContainer>
+				<ToastContainer />
 				<DockerDiv>
 					<Tabs>
 					    <Tab label="Invoice Creation">
-					      <CInvoiceForm />
+					      <CInvoiceForm postInvoice={this.props.actions.postInvoice}/>
 					    </Tab>
 					    <Tab label="Invoice List" >
-					      <div>
-					        <h2 style={styles.headline}>Tab Two</h2>
-					        <p>
-					          This is another example tab.
-					        </p>
-					      </div>
+					      <CInvoiceListing invoices={this.props.invoices}/>
 					    </Tab>
 	  				</Tabs>
   				</DockerDiv>
@@ -55,3 +61,17 @@ export default class CInvoiceHomePage extends Component {
 		);
 	}
 }
+
+function mapStateToProps(state) {
+  return {
+    invoices: state.invoiceList
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CInvoiceHomePage);

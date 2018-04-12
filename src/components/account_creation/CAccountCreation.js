@@ -114,7 +114,7 @@ class CAccountCreation extends Component {
 			stepIndex: stepIndex + 1,
 			finished: stepIndex >= 2,
 		});
-		if (stepIndex >= 2) this.handleFinish();
+		// if (stepIndex >= 2) this.handleFinish();
 	};
 
 	handlePrev = () => {

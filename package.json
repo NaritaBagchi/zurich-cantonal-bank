@@ -12,7 +12,9 @@
     "start": "npm run dev"
   },
   "dependencies": {
-    "immutable": "^3.8.2",
+    "file-system": "^2.2.2",
+    "formidable": "^1.2.1",
+    "immutability-helper": "^2.6.6",
     "material-ui": "^0.20.0",
     "react": "^16.0.0",
     "react-bootstrap": "^0.32.1",
@@ -22,7 +24,8 @@
     "react-toastify": "^3.4.3",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "styled-components": "^2.2.1"
+    "styled-components": "^2.2.1",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

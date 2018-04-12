@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { ToastContainer } from 'react-toastify';
 
 import CTermsPage from './CTermsPage';
 import CAccountCreation from './CAccountCreation';
@@ -35,6 +36,7 @@ export default class CAccountCreationHomePage extends Component {
 
 		return(
 			<HomePageContainer>
+			<ToastContainer />
 				{this.state.showTermsPage && 
 					<CTermsPage handleAgree={this.handleAgree}
 								handleDecline={this.handleDecline}/>}

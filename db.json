@@ -33,52 +33,16 @@
   ],
   "invoices": [
     {
-      "id": "2f543320-3d52-11e8-b362-3d9fe6ab5937",
-      "iNumber": "98",
-      "iDate": "2018-04-02T17:00:00.000Z",
-      "amount": "2300",
-      "dueDate": "2018-04-06T17:00:00.000Z",
-      "customerNumber": "777",
-      "customerCounty": "Polland",
-      "iLineItems": "LI",
-      "invoiceCopy": "",
-      "status": "Pending"
-    },
-    {
-      "id": "8bb57de0-3d52-11e8-bc47-097254dd0c48",
-      "iNumber": "11",
-      "iDate": "2018-04-01T17:00:00.000Z",
-      "amount": "345",
-      "dueDate": "2018-04-08T17:00:00.000Z",
-      "customerNumber": "333",
+      "id": "0f35cca0-3e2b-11e8-86d3-03c9bde9acae",
+      "iNumber": "121",
+      "iDate": "2018-04-03T17:00:00.000Z",
+      "amount": "1200",
+      "dueDate": "2018-04-07T17:00:00.000Z",
+      "customerNumber": "444",
       "customerCounty": "Czech",
-      "iLineItems": "LI",
+      "iLineItems": "Pr",
       "invoiceCopy": "",
-      "status": "Pending"
-    },
-    {
-      "id": "78db2ec0-3d6d-11e8-90a6-2901048de6bb",
-      "formData": {
-        "iNumber": 0,
-        "iDate": "2018-04-11T09:48:10.489Z",
-        "amount": 0,
-        "dueDate": "2018-04-11T09:48:10.489Z",
-        "customerNumber": 0,
-        "customerCounty": "",
-        "iLineItems": "",
-        "invoiceCopy": "",
-        "status": "Pending"
-      },
-      "errorTexts": {
-        "iNumber": "",
-        "iDate": "",
-        "amount": "",
-        "dueDate": "",
-        "customerNumber": "",
-        "customerCounty": "",
-        "iLineItems": "",
-        "invoiceCopy": ""
-      }
+      "status": "Approved"
     }
   ]
 }

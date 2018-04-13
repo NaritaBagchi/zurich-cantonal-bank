@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 import uuidv1 from 'uuid/v1';
 import { toast } from 'react-toastify';
@@ -74,10 +75,16 @@ export default class CInvoiceForm extends Component {
 	    this.onChange({target: {name: targetName, value: newDate}});
 	};
 
+	disableFutureDates = (date) => {
+		return (date > new Date());
+	};
+
 	validateForm = () => {
 		for (var field in this.state.formData) {
-			if (this.state.formData[field].toString().trim().length < 1) {
-				return false;
+			if (field !== 'invoiceCopy') { //TODO - text field to have the uploaded file name
+				if (this.state.formData[field].toString().trim().length < 1) {
+					return false;
+				}
 			}
 		}
 		return true;
@@ -85,7 +92,7 @@ export default class CInvoiceForm extends Component {
 
 	submitInvoice = () => {
 		if (this.validateForm()) {
-			const invoiceData = {...{id: uuidv1()}, ...this.state};
+			const invoiceData = {...{id: uuidv1()}, ...this.state.formData};
 			this.props.postInvoice(invoiceData);
 			this.refs.fileUploadForm.submit();
 		} else {
@@ -108,7 +115,7 @@ export default class CInvoiceForm extends Component {
 					    
 					    <DatePicker style={style} floatingLabelStyle={floatingLabelStyle}
 					    	floatingLabelText="Invoice date" fullWidth={true}
-					    	underlineShow={true}
+					    	underlineShow={true} name="iDate"
 					    	formatDate={new DateTimeFormat('en-US', {
 									        day: 'numeric',
 									        month: 'long',
@@ -116,6 +123,8 @@ export default class CInvoiceForm extends Component {
 									      }).format}
 					    	onChange={(noEvent, value) => this.onDateChange(value, 'iDate')}
 					    	onBlur={this.onBlurValidation}
+					    	errorText={this.state.errorTexts.iDate}
+					    	shouldDisableDate={this.disableFutureDates}
 					    />
 					    
 					    <TextField style={style} floatingLabelStyle={floatingLabelStyle}
@@ -128,7 +137,7 @@ export default class CInvoiceForm extends Component {
 					    
 					    <DatePicker style={style} floatingLabelStyle={floatingLabelStyle}
 					    	floatingLabelText="Invoice due date" fullWidth={true}
-					    	underlineShow={true}
+					    	underlineShow={true} name="dueDate"
 					    	formatDate={new DateTimeFormat('en-US', {
 									        day: 'numeric',
 									        month: 'long',
@@ -136,6 +145,8 @@ export default class CInvoiceForm extends Component {
 									      }).format}
 					    	onChange={(noEvent, value) => this.onDateChange(value, 'dueDate')}
 					    	onBlur={this.onBlurValidation}
+					    	errorText={this.state.errorTexts.dueDate}
+					    	shouldDisableDate={this.disableFutureDates}
 					    />
 					    
 					</Col>
@@ -166,8 +177,8 @@ export default class CInvoiceForm extends Component {
 					    
 					    <div style={containerFieldFlatButton}>
 						  	<TextField style={style} floatingLabelStyle={floatingLabelStyle}
-						  		floatingLabelText="Upload invoice copy"
-						  		underlineShow={true} name="invoiceCopy" fullWidth={true}>
+						  		floatingLabelText="Upload invoice copy" fullWidth={true}
+						  		underlineShow={true} name="invoiceCopy">
 						  	</TextField>
 						  	<form action="http://localhost:3001/fileupload" ref="fileUploadForm"
 			    					method="post" encType="multipart/form-data" target="fileUploadTarget">
@@ -182,9 +193,8 @@ export default class CInvoiceForm extends Component {
 				  	</Col>
 			  	</Row>
 			  	<div style={{textAlign: 'right'}}>
-	                <FlatButton
+	                <RaisedButton
 	                  	label="Submit"
-	                  	variant="raised"
 	                  	primary={true}
 						onClick={this.submitInvoice}
 	                />

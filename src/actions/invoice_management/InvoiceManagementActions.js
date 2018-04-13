@@ -37,3 +37,42 @@ export function postInvoice(data) {
       });
     };
 }
+
+export function updateInvoice(data) {
+  return function (dispatch) {
+    fetch('http://localhost:3001/invoices/'+data.id, {
+        method: 'PATCH',
+        body: JSON.stringify(data.entity),
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
+      .then(
+        function(resp) {
+          toast.info("Invoice patched !");
+        return resp.json(); 
+      }, function(resp) {
+          toast.error("Error patching Invoice !");
+        return resp.json();
+      });
+    };
+}
+
+export function deleteInvoice(data) {
+  return function (dispatch) {
+    fetch('http://localhost:3001/invoices/'+data.id, {
+        method: 'DELETE',
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
+      .then(
+        function(resp) {
+          toast.info("Invoice patched !");
+        return resp.json(); 
+      }, function(resp) {
+          toast.error("Error patching Invoice !");
+        return resp.json();
+      });
+    };
+}

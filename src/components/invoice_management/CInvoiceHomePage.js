@@ -53,7 +53,10 @@ export class CInvoiceHomePage extends Component {
 					      <CInvoiceForm postInvoice={this.props.actions.postInvoice}/>
 					    </Tab>
 					    <Tab label="Invoice List" >
-					      <CInvoiceListing invoices={this.props.invoices}/>
+					      <CInvoiceListing invoices={this.props.invoices}
+					      	updateInvoice={this.props.actions.updateInvoice} 
+					      	deleteInvoice={this.props.actions.deleteInvoice} 
+					      />
 					    </Tab>
 	  				</Tabs>
   				</DockerDiv>

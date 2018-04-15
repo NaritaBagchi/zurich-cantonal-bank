@@ -12,6 +12,9 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import update from 'immutability-helper';
 
+import { formatDate } from '../../../utils/Utility';
+import { INVOICE_STATUS, BUTTON_LABELS } from '../../../Constants';
+
 export default class CInvoiceListing extends Component {
 
 	constructor (props) {
@@ -30,7 +33,7 @@ export default class CInvoiceListing extends Component {
 	handleCellClick = (rowNumber, columnNumber) => {
 		if (columnNumber === 4) {
 			const invoiceToEdit = this.props.invoices[rowNumber];
-			
+			this.props.editInvoice(invoiceToEdit);
 		}
 	};
 
@@ -42,10 +45,11 @@ export default class CInvoiceListing extends Component {
 		this.state.selectedInvoices.map((i) => {
 			const data = {
 				id: this.props.invoices[i].id,
-				entity: {...this.props.invoices[i], ...{status: 'Approved'}},
+				entity: {...this.props.invoices[i], ...{status: INVOICE_STATUS.APPROVED}},
 			};
-			this.props.updateInvoice(data);
+			this.props.patchInvoice(data);
 		});
+
 	};
 
 	deleteInvoices = () => {
@@ -60,34 +64,36 @@ export default class CInvoiceListing extends Component {
 	render() {
 
 		const invoiceRows = this.props.invoices.map((invoice, index) => {
-	      return (
-	        <TableRow key={index} selected={this.isSelected(index)}>
-		        <TableRowColumn>{invoice.iNumber}</TableRowColumn>
-		        <TableRowColumn>{invoice.status}</TableRowColumn>
-		        <TableRowColumn>{invoice.amount}</TableRowColumn>
-		        <TableRowColumn>{invoice.dueDate}</TableRowColumn>
-		        <TableRowColumn>
-		        	<FlatButton containerElement='label' style={{width: 'auto'}}>
-			    		<i className="material-icons">edit</i>
-			    	</FlatButton>
-		        </TableRowColumn>
-		    </TableRow>
+			const iDueDate = new Date(invoice.dueDate);
+			return (
+		        <TableRow key={index} selected={this.isSelected(index)}>
+			        <TableRowColumn>{invoice.iNumber}</TableRowColumn>
+			        <TableRowColumn>{invoice.status}</TableRowColumn>
+			        <TableRowColumn>{invoice.amount}</TableRowColumn>
+			        <TableRowColumn>{formatDate(iDueDate)}</TableRowColumn>
+			        <TableRowColumn style={{textAlign: "center"}}>
+			        	<FlatButton containerElement='label' style={{width: 'auto', height: "25px"}}>
+				    		<i className="material-icons">edit</i>
+				    	</FlatButton>
+			        </TableRowColumn>
+			    </TableRow>
 	      );
 	    });
 
 		return(
-			<div style={{padding: "20px"}}>
-				<Row style={{height: "64vh"}}>
-				  	<Col sm={12} md={12}>
-				  		<Table multiSelectable={true} onRowSelection={this.handleRowSelection}
-				  			onCellClick={this.handleCellClick}>
+			<div>
+				<Row style={{height: "70vh", overflowX: "hidden", overflowY: "auto", margin: 0}}>
+				  	<Col sm={12} md={12} style={{padding: 0}}>
+				  		<Table 	multiSelectable={true}
+				  				onRowSelection={this.handleRowSelection}
+				  				onCellClick={this.handleCellClick}>
 						    <TableHeader>
 						      <TableRow>
 						        <TableHeaderColumn>Invoice number</TableHeaderColumn>
 						        <TableHeaderColumn>Status</TableHeaderColumn>
 						        <TableHeaderColumn>Amount</TableHeaderColumn>
 						        <TableHeaderColumn>Due date</TableHeaderColumn>
-						        <TableHeaderColumn>Edit</TableHeaderColumn>
+						        <TableHeaderColumn>Action</TableHeaderColumn>
 						      </TableRow>
 						    </TableHeader>
 						    <TableBody deselectOnClickaway={false} preScanRows={false}>
@@ -96,14 +102,14 @@ export default class CInvoiceListing extends Component {
 	  					</Table>
 				  	</Col>
 			  	</Row>
-			  	<div style={{marginTop: 12, textAlign: 'right', position: 'relative', bottom: '10px', right: '10px'}}>
+			  	<div style={{textAlign: 'right', position: 'relative', padding: '20px'}}>
                 	<FlatButton
-	                  label="Delete"
+	                  label='Delete'
 	                  style={{marginRight: 12}}
 	                  onClick={this.deleteInvoices}
                 	/>
 	                <RaisedButton
-	                  label="Approve"
+	                  label='Approve'
 	                  primary={true}
 	                  onClick={this.approveInvoices}
 	                />

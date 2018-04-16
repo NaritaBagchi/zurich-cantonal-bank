@@ -45,7 +45,7 @@ export default class CInvoiceForm extends Component {
 				iLineItems: '',
 				invoiceCopy: '',
 			},
-			editMode: false
+			editMode: props.editMode
 	    };
 	}
 
@@ -55,7 +55,7 @@ export default class CInvoiceForm extends Component {
 		}
 		const updatedState = update(prevState, {
 	        formData: {$set: nextProps.activeForm},
-	        editMode: {$set: true}
+	        editMode: {$set: nextProps.editMode}
 	    });
 		return updatedState;
 	}
@@ -107,8 +107,8 @@ export default class CInvoiceForm extends Component {
 				this.props.putInvoice(invoiceData);
 			} else {
 				this.props.postInvoice(invoiceData);
+				this.refs.fileUploadForm.submit();
 			}
-			this.refs.fileUploadForm.submit();
 		} else {
 			toast.error(ERROR_MESSAGE.INVALID_FORM);
 		}

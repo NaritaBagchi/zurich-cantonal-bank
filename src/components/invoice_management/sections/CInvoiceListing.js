@@ -33,7 +33,7 @@ export default class CInvoiceListing extends Component {
 	handleCellClick = (rowNumber, columnNumber) => {
 		if (columnNumber === 4) {
 			const invoiceToEdit = this.props.invoices[rowNumber];
-			this.props.editInvoice(invoiceToEdit);
+			this.props.launchEditInvoice(invoiceToEdit);
 		}
 	};
 

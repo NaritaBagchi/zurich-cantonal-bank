@@ -52,14 +52,15 @@ export class CInvoiceHomePage extends Component {
 					    <Tab label={INVOICE_CREATION_FORM_HEADER} value={INVOICE_CREATION_FORM}>
 					      <CInvoiceForm postInvoice={this.props.actions.postInvoice}
 					      				putInvoice={this.props.actions.putInvoice}
-					      				activeForm={this.props.activeForm}/>
+					      				activeForm={this.props.activeForm}
+					      				editMode={this.props.editMode}/>
 					    </Tab>
 					    <Tab label={INVOICE_LISTING_HEADER} value={INVOICE_LISTING}>
 					      <CInvoiceListing	invoices={this.props.invoices}
 									      	patchInvoice={this.props.actions.patchInvoice} 
 									      	deleteInvoice={this.props.actions.deleteInvoice} 
 									      	selectTab={this.props.actions.selectTab}
-									      	editInvoice={this.props.actions.editInvoice}
+									      	launchEditInvoice={this.props.actions.launchEditInvoice}
 					      />
 					    </Tab>
 	  				</Tabs>
@@ -73,7 +74,8 @@ function mapStateToProps(state) {
   return {
     invoices: state.invoiceList,
     selectedTab: state.selectedTab,
-    activeForm: state.activeInvoice
+    activeForm: state.activeInvoice,
+    editMode: state.editMode
   };
 }
 

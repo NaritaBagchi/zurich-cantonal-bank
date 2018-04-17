@@ -19,8 +19,15 @@ export default class CAccountCreationHomePage extends Component {
 	state = {
     	showTermsPage: true,
     	showAccountCreationForm: false,
-    	showDefaultText: false,
+    	showDefaultText: false
   	};
+
+  	componentDidMount() {
+   		const showTerms = localStorage.getItem('showTermsPage');
+		if (showTerms !== null) {
+			this.setState({showTermsPage: showTerms});
+		}
+	}
 
 	handleTermsDismiss = () => {
 		this.setState({showTermsPage: false});
@@ -32,6 +39,7 @@ export default class CAccountCreationHomePage extends Component {
     	this.setState({showTermsPage: false});
     	this.setState({showAccountCreationForm: true});
     	this.setState({showDefaultText: false});
+    	localStorage.setItem('showTermsPage', false);
   	};
 
 	render() {

@@ -9,18 +9,27 @@
     "start-serve": "node server.js",
     "wp-server": "webpack-dev-server",
     "dev": "(start npm run start-serve && start npm run wp-server)",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "test": "node node_modules/jest/bin/jest.js"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/src/enzymeSetup.js"
   },
   "dependencies": {
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.3",
     "file-system": "^2.2.2",
     "formidable": "^1.2.1",
     "immutability-helper": "^2.6.6",
+    "jest": "^22.4.3",
     "material-ui": "^0.20.0",
     "react": "^16.0.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
+    "react-test-renderer": "^16.3.2",
     "react-toastify": "^3.4.3",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",

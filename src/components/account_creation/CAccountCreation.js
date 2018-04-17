@@ -15,7 +15,7 @@ import CPersonalInformation from './sections/CPersonalInformation';
 import CEmploymentInformation from './sections/CEmploymentInformation';
 import CAccountInformation from './sections/CAccountInformation';
 import CDocumentation from './sections/CDocumentation';
-import * as formActions from '../../actions/account_creation/AForm';
+import * as formActions from '../../actions/account_creation/AccountCreationActions';
 
 const HomePageBackground = styled.div`
     height: 100vh;
@@ -45,45 +45,45 @@ const BankLogoDiv = styled.div`
 
 const dataModel = {
 					personalInfo: {
-						title: "",
-						firstName: "",
-						middleName: "",
-						lastName: "",
-						homePhone: "",
-						mobilePhone: "",
-						email: "",
-						mailingAddress: "",
-						ssn: "",
+						title: '',
+						firstName: '',
+						middleName: '',
+						lastName: '',
+						homePhone: '',
+						mobilePhone: '',
+						email: '',
+						mailingAddress: '',
+						ssn: '',
 					},
 					employmentInfo: {
-						employerName: "",
-						address: "",
-						workPhone: "",
-						jobPosition: "",
+						employerName: '',
+						address: '',
+						workPhone: '',
+						jobPosition: '',
 					},
 					accountInfo: {
 						accType: 1,
-						purpose: "",
-						depositSource: "",
-						infoSource: "",
+						purpose: '',
+						depositSource: '',
+						infoSource: '',
 					},
 					documentation: {
-						utilBillCopy: "",
-						ssnCopy: "",
+						utilBillCopy: '',
+						ssnCopy: '',
 					}
 				};
+const initialFormState = {
+	finished: false,
+	stepIndex: 0,
+	formData: dataModel,
+	intervalId: 0
+};
 
 class CAccountCreation extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			finished: false,
-			stepIndex: 0,
-			formData: dataModel,
-			intervalId: 0,
-			showButtonPanel: true
-		};
+		this.state = initialFormState;
 	};
 
 	componentDidMount() {
@@ -100,15 +100,8 @@ class CAccountCreation extends Component {
 		if (this.ssnFormRef) this.ssnFormRef.submit();
 		if (this.utilFormRef) this.utilFormRef.submit();
 		this.props.createAccount(this.state.formData);
-		clearInterval(this.state.intervalId);
 		localStorage.clear();
-		this.setState({
-			finished: false,
-			stepIndex: 0,
-			formData: dataModel,
-			intervalId: 0,
-			showButtonPanel: true
-		});
+		this.setState(initialFormState);
 	};
 
 	utilBillFormRefCallback = (utilFormRef) => {
@@ -203,21 +196,19 @@ class CAccountCreation extends Component {
 			        </Col>
 		        </Row>
 		        {this.getStepContent(stepIndex)}
-		        {this.state.showButtonPanel &&
-		        	<div style={{textAlign: 'right', padding: '20px'}}>
-	                	<FlatButton
-		                  label="Back"
-		                  disabled={stepIndex === 0}
-		                  onClick={this.handlePrev}
-		                  style={{marginRight: 12}}
-	                	/>
-		                <RaisedButton
-		                  label={stepIndex === 3 ? 'Finish' : 'Next'}
-		                  primary={true}
-		                  onClick={this.handleNext}
-		                />
-	            	</div>
-	        	}
+		        <div style={{textAlign: 'right', padding: '20px'}}>
+                	<FlatButton
+	                  label='Back'
+	                  disabled={stepIndex === 0}
+	                  onClick={this.handlePrev}
+	                  style={{marginRight: 12}}
+                	/>
+	                <RaisedButton
+	                  label={stepIndex === 3 ? 'Finish' : 'Next'}
+	                  primary={true}
+	                  onClick={this.handleNext}
+	                />
+	            </div>
             </DockerDiv>
             </HomePageBackground>
 
@@ -225,10 +216,4 @@ class CAccountCreation extends Component {
 	};
 }
 
-function mapStateToProps(state) {
-  return {
-    formData: state.formData
-  };
-}
-
-export default connect(mapStateToProps, formActions)(CAccountCreation);
+export default connect(null, formActions)(CAccountCreation);

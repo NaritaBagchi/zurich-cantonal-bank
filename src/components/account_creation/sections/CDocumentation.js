@@ -31,12 +31,11 @@ export default class CDocumentation extends Component {
 	  	return (
 	  	<Row style={{height: '65vh', overflowX: 'hidden', overflowY: 'auto', margin: 0, padding: '0 20px'}}>
 		  	<Col sm={12} md={6}>
-		  		<div style={{display: 'flex', justifyContent: 'flex-end'}}>
+		  		<div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end'}}>
 				  	<TextField	floatingLabelText='Upload utility bill copy'
 				  				floatingLabelStyle={floatingLabelStyle}
 				  				style={{flex: 1}}
-				  				underlineShow={false} 
-				  				defaultValue={thisForm.utilBillCopy}
+				  				underlineShow={false}
 				  				value={thisForm.utilBillCopy}
 				  				name='utilBillCopy'>
 				  	</TextField>
@@ -63,8 +62,7 @@ export default class CDocumentation extends Component {
 				    <TextField 	floatingLabelText='Upload SSN copy' 
 				    			floatingLabelStyle={floatingLabelStyle}
 				    			fullWidth={true}
-				    			underlineShow={false} 
-				    			defaultValue={thisForm.ssnCopy} 
+				    			underlineShow={false}
 				    			value={thisForm.ssnCopy}
 				  				name='ssnCopy'/>
 				  	<form 	action='http://localhost:3001/fileupload'
@@ -74,7 +72,7 @@ export default class CDocumentation extends Component {
 				  			encType='multipart/form-data'
 				  			target='ssnUploadTarget'>
 					    <FlatButton containerElement='label' 
-					    			style={{flex: 1, textAlign: 'right', paddingTop: '10px'}}>
+					    			style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', flex: 1, height: '100%', textAlign: 'right', paddingTop: '10px'}}>
 			    						<i className='material-icons'>add_circle</i>
 										<input 	type='file'
 												name='filetoupload'

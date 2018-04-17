@@ -44,7 +44,7 @@ export default class CAccountInformation extends Component {
 			        	<MenuItem value={1} primaryText='Savings' />
 			        	<MenuItem value={2} primaryText='Deposit' />
         		</SelectField>
-			    
+			    <Divider/>
 			    <TextField	floatingLabelText='Purpose of bank account'
 			    			floatingLabelStyle={floatingLabelStyle}
 			    			fullWidth={true}

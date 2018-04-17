@@ -11,10 +11,13 @@ export function createAccount(data) {
     })
     .then(
         function(resp) {
-          toast.info("Thanks for banking with us! Your account number is TODO");
+          const locationHeader = resp.headers.get('location');
+          const accountId = locationHeader.substring(
+                              locationHeader.lastIndexOf('/')+1, locationHeader.length);
+          toast.info("Thanks for banking with us! Your account number is "+accountId);
         return resp.json(); 
       }, function(resp) {
-          toast.error("Something went wrong! Please try again...");
+          toast.error("Something went wrong! Please contact our local branch at 9980435889");
         return resp.json();
       });
     };

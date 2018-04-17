@@ -1,3 +1,5 @@
+import { INVOICE_STATUS } from '../Constants';
+
 export function formatDate(date) {
 	var monthNames = [
 		"January", "February", "March",
@@ -20,4 +22,14 @@ export function compareActiveFormState(newFormData, prevFormData) {
 					&& (newFormData.iLineItems == prevFormData.iLineItems)
 						&& (newFormData.invoiceCopy == prevFormData.invoiceCopy)
 							&& (newFormData.status == prevFormData.status));
+};
+
+export const invoiceFormInitialState = {
+    iNumber: '',
+    amount: '',
+    customerNumber: '',
+    customerCounty: '',
+    iLineItems: '',
+    invoiceCopy: '',
+    status: INVOICE_STATUS.PENDING,
 };

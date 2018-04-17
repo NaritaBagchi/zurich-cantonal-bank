@@ -1,17 +1,10 @@
 import update from 'immutability-helper';
 import { INVOICE_CREATION_FORM, INVOICE_STATUS, INVOICE_MANAGEMENT_ACTION } from '../../Constants';
+import { invoiceFormInitialState } from '../../utils/Utility';
 
 const initialState = {
   invoiceList: [],
-  activeInvoice: {
-    iNumber: '',
-    amount: '',
-    customerNumber: '',
-    customerCounty: '',
-    iLineItems: '',
-    invoiceCopy: '',
-    status: INVOICE_STATUS.PENDING,
-  }, 
+  activeInvoice: invoiceFormInitialState, 
   selectedTab: INVOICE_CREATION_FORM,
   editMode: false
 };
@@ -59,6 +52,13 @@ export const invoiceReducer = (state = initialState, action) => {
         activeInvoice: {$set: action.invoice},
         selectedTab: {$set: INVOICE_CREATION_FORM},
         editMode: {$set: true}
+      });
+      return updatedState;
+    }
+    case INVOICE_MANAGEMENT_ACTION.CLEAR_ACTIVE_INVOICE: {
+      const updatedState = update(state, {
+        activeInvoice: {$set: initialState.activeInvoice},
+        editMode: {$set: initialState.editMode}
       });
       return updatedState;
     }

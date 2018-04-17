@@ -11,7 +11,6 @@ export function createAccount(data) {
     })
     .then(
         function(resp) {
-          //dispatch(updatePaymentActionCreator(data));
           toast.info("Thanks for banking with us! Your account number is TODO");
         return resp.json(); 
       }, function(resp) {

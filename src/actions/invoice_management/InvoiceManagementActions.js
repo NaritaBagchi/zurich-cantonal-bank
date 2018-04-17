@@ -1,57 +1,64 @@
 import { toast } from 'react-toastify';
+import { INVOICE_MANAGEMENT_ACTION, SERVER_URL } from '../../Constants';
 
 function loadInvoiceListing(invoices) {
   return {
-    type: 'LOAD_INVOICE_LISTING',
+    type: INVOICE_MANAGEMENT_ACTION.LOAD_INVOICE_LISTING,
     invoices
   }
 }
 
 function addInvoice(invoice) {
   return {
-    type: 'ADD_INVOICE',
+    type: INVOICE_MANAGEMENT_ACTION.ADD_INVOICE,
     invoice
   }
 }
 
 function removeInvoice(invoice) {  
   return {
-    type: 'DELETE_INVOICE',
+    type: INVOICE_MANAGEMENT_ACTION.DELETE_INVOICE,
     invoice
   }
 }
 
 function updatePatchedInvoice(invoice) {
   return {
-    type: 'PATCH_INVOICE',
+    type: INVOICE_MANAGEMENT_ACTION.PATCH_INVOICE,
     invoice
   }
 }
 
 function updateEditedInvoice(invoice) {
   return {
-    type: 'EDIT_INVOICE',
+    type: INVOICE_MANAGEMENT_ACTION.EDIT_INVOICE,
     invoice
   }
 }
 
 export function launchEditInvoice(invoice) {
   return {
-    type: "LAUNCH_EDIT_INVOICE",
+    type: INVOICE_MANAGEMENT_ACTION.LAUNCH_EDIT_INVOICE,
     invoice
   }
 }
 
 export function selectTab(tabValue) {
   return {
-    type: "SELECTED_TAB",
+    type: INVOICE_MANAGEMENT_ACTION.SELECTED_TAB,
     tabValue
+  }
+}
+
+export function clearActiveInvoice() {
+  return {
+    type: INVOICE_MANAGEMENT_ACTION.CLEAR_ACTIVE_INVOICE
   }
 }
 
 export function fetchInvoiceList(data) {
   return function (dispatch) {
-    fetch('http://localhost:3001/invoices')
+    fetch(SERVER_URL)
       .then(function(resp) { return resp.json(); })
       .then(function(data) {
           dispatch(loadInvoiceListing(data));
@@ -62,7 +69,7 @@ export function fetchInvoiceList(data) {
 // Invoice creation.
 export function postInvoice(invoice) {
 	return function (dispatch) {
-		fetch('http://localhost:3001/invoices', {
+		fetch(SERVER_URL, {
         method: 'post',
         body: JSON.stringify(invoice),
         headers: {
@@ -87,7 +94,7 @@ export function postInvoice(invoice) {
 // Approve
 export function patchInvoice(invoice) {
   return function (dispatch) {
-    fetch('http://localhost:3001/invoices/'+invoice.id, {
+    fetch(SERVER_URL+'/'+invoice.id, {
         method: 'PATCH',
         body: JSON.stringify(invoice.entity),
         headers: {
@@ -108,7 +115,7 @@ export function patchInvoice(invoice) {
 
 export function putInvoice(invoice) {
   return function (dispatch) {
-    fetch('http://localhost:3001/invoices/'+invoice.id, {
+    fetch(SERVER_URL+'/'+invoice.id, {
         method: 'put',
         body: JSON.stringify(invoice),
         headers: {
@@ -129,7 +136,7 @@ export function putInvoice(invoice) {
 
 export function deleteInvoice(invoice) {
   return function (dispatch) {
-    fetch('http://localhost:3001/invoices/'+invoice.id, {
+    fetch(SERVER_URL+'/'+invoice.id, {
         method: 'DELETE',
         headers: {
           'content-type': 'application/json'

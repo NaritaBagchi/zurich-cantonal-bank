@@ -53,7 +53,8 @@ export class CInvoiceHomePage extends Component {
 					      <CInvoiceForm postInvoice={this.props.actions.postInvoice}
 					      				putInvoice={this.props.actions.putInvoice}
 					      				activeForm={this.props.activeForm}
-					      				editMode={this.props.editMode}/>
+					      				editMode={this.props.editMode}
+					      				clearActiveInvoice={this.props.actions.clearActiveInvoice}/>
 					    </Tab>
 					    <Tab label={INVOICE_LISTING_HEADER} value={INVOICE_LISTING}>
 					      <CInvoiceListing	invoices={this.props.invoices}

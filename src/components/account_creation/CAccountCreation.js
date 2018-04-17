@@ -28,11 +28,9 @@ const HomePageBackground = styled.div`
 `;
 
 const DockerDiv = styled.div`
-	height: 70vh;
-	width: 80vw;
+	width: 70vw;
 	background: aliceblue;
 	border-radius: 0px;
-	padding: 20px;
 `;
 
 const BankLogoDiv = styled.div`
@@ -84,29 +82,44 @@ class CAccountCreation extends Component {
 			stepIndex: 0,
 			formData: dataModel,
 			intervalId: 0,
+			showButtonPanel: true
 		};
 	};
 
 	componentDidMount() {
-		console.log("componentDidMount");
    		var intervalId = setInterval(this.saveDraft, 5000);
-   		// store intervalId in the state so it can be accessed later:
    		this.setState({intervalId: intervalId});
    		this.restoreDraft();
 	}
 
 	componentWillUnmount() {
-   		// use intervalId from the state to clear the interval
-   		console.log("componentWillUnmount");
    		clearInterval(this.state.intervalId);
 	}
 
 	handleFinish = () => {
+		if (this.ssnFormRef) this.ssnFormRef.submit();
+		if (this.utilFormRef) this.utilFormRef.submit();
 		this.props.createAccount(this.state.formData);
+		clearInterval(this.state.intervalId);
+		localStorage.clear();
+		this.setState({
+			finished: false,
+			stepIndex: 0,
+			formData: dataModel,
+			intervalId: 0,
+			showButtonPanel: true
+		});
+	};
+
+	utilBillFormRefCallback = (utilFormRef) => {
+		this.utilFormRef = utilFormRef;
+	};
+
+	ssnFormRefCallback = (ssnFormRef) => {
+		this.ssnFormRef = ssnFormRef;
 	};
 
 	handleNext = () => {
-		// this.saveDraft();
 		const {
 			stepIndex
 		} = this.state;
@@ -114,7 +127,7 @@ class CAccountCreation extends Component {
 			stepIndex: stepIndex + 1,
 			finished: stepIndex >= 2,
 		});
-		// if (stepIndex >= 2) this.handleFinish();
+		if (stepIndex > 2) this.handleFinish();
 	};
 
 	handlePrev = () => {
@@ -140,8 +153,7 @@ class CAccountCreation extends Component {
 
 	handleChange = (currentForm, event) => {
 		this.state.formData[currentForm][event.target.name] = event.target.value;
-		this.setState({formData: {...this.state.formData}});	
-		console.log(this.state);
+		this.setState({formData: {...this.state.formData}});
 	};
 
 	getStepContent(stepIndex) {
@@ -153,7 +165,11 @@ class CAccountCreation extends Component {
 			case 2:
 				return <CAccountInformation {...this.state.formData} handleChange={this.handleChange}/>;
 			default:
-				return <CDocumentation {...this.state.formData} handleChange={this.handleChange}/>;
+				return <CDocumentation 	{...this.state.formData}
+										handleChange={this.handleChange}
+										utilBillFormRef={this.utilBillFormRefCallback}
+										ssnFormRef={this.ssnFormRefCallback}
+										/>;
 		}
 	}
 
@@ -168,7 +184,7 @@ class CAccountCreation extends Component {
 			<HomePageBackground>
 			<BankLogoDiv/>
 			<DockerDiv>
-				<Row>
+				<Row style={{padding: '0 20px'}}>
 					<Col sm={12} md={12}>
 				        <Stepper activeStep={stepIndex}>
 				          <Step>
@@ -187,19 +203,21 @@ class CAccountCreation extends Component {
 			        </Col>
 		        </Row>
 		        {this.getStepContent(stepIndex)}
-		        <div style={{marginTop: 12, textAlign: 'right', position: 'relative', bottom: '10px', right: '10px'}}>
-                	<FlatButton
-	                  label="Back"
-	                  disabled={stepIndex === 0}
-	                  onClick={this.handlePrev}
-	                  style={{marginRight: 12}}
-                	/>
-	                <RaisedButton
-	                  label={stepIndex === 3 ? 'Finish' : 'Next'}
-	                  primary={true}
-	                  onClick={this.handleNext}
-	                />
-	            </div>
+		        {this.state.showButtonPanel &&
+		        	<div style={{textAlign: 'right', padding: '20px'}}>
+	                	<FlatButton
+		                  label="Back"
+		                  disabled={stepIndex === 0}
+		                  onClick={this.handlePrev}
+		                  style={{marginRight: 12}}
+	                	/>
+		                <RaisedButton
+		                  label={stepIndex === 3 ? 'Finish' : 'Next'}
+		                  primary={true}
+		                  onClick={this.handleNext}
+		                />
+	            	</div>
+	        	}
             </DockerDiv>
             </HomePageBackground>
 

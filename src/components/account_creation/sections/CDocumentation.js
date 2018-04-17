@@ -7,42 +7,81 @@ import FontIcon from 'material-ui/FontIcon';
 import {blue500} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 
-const style = {
-  	marginLeft: 20,
-  	width: "100%",
-};
 const containerFieldButton = {
-	display: "flex",
+	display: 'flex',
+};
+const floatingLabelStyle = {
+	fontWeight: 'normal',
 };
 export default class CDocumentation extends Component {
 	updateForm = (event) => {
 		this.props.handleChange('documentation', event);
 	};
 
+	onUtilBillSelection = (event) => {
+		this.updateForm({target: {name: 'utilBillCopy', value: event.target.files[0].name}});
+	};
+
+	onSSNCopySelection = (event) => {
+		this.updateForm({target: {name: 'ssnCopy', value: event.target.files[0].name}});
+	};
+
 	render() {
 		const thisForm = this.props.documentation;
 	  	return (
-	  	<Row>
+	  	<Row style={{height: '65vh', overflowX: 'hidden', overflowY: 'auto', margin: 0, padding: '0 20px'}}>
 		  	<Col sm={12} md={6}>
-		  		<div style={containerFieldButton}>
-				  	<TextField hintText="Upload utility bill copy" style={style}
-				  		underlineShow={false} defaultValue={thisForm.utilBillCopy}
-				  		name="utilBillCopy">
+		  		<div style={{display: 'flex', justifyContent: 'flex-end'}}>
+				  	<TextField	floatingLabelText='Upload utility bill copy'
+				  				floatingLabelStyle={floatingLabelStyle}
+				  				style={{flex: 1}}
+				  				underlineShow={false} 
+				  				defaultValue={thisForm.utilBillCopy}
+				  				value={thisForm.utilBillCopy}
+				  				name='utilBillCopy'>
 				  	</TextField>
-	    			<FlatButton containerElement='label' style={{width: 'auto'}}>
-	    				<i className="material-icons">add_circle</i>
-						<input style={{display: 'none'}} type="file"/>
-					</FlatButton>
+				  	<form 	action='http://localhost:3001/fileupload'
+				  			ref={this.props.utilBillFormRef}
+				  			name='utilBillForm'
+				    		method='post'
+				    		encType='multipart/form-data'
+				    		target='utilBillUploadTarget'>
+	    				<FlatButton	containerElement='label'
+	    							style={{flex: 1, textAlign: 'right', paddingTop: '10px'}}>
+	    							<i className='material-icons'>add_circle</i>
+									<input	type='file'
+											name='filetoupload'
+											style={{display: 'none'}}
+											onChange={this.onUtilBillSelection} />
+						</FlatButton>
+					</form>
 			  	</div>
+			  	<iframe name='utilBillUploadTarget' style={{ display: 'none'}}></iframe>
+			  	<iframe name='ssnUploadTarget' style={{ display: 'none'}}></iframe>
 			    <Divider />
 			    <div style={containerFieldButton}>
-				    <TextField hintText="Upload SSN copy" style={style}
-				    	underlineShow={false} defaultValue={thisForm.ssnCopy} 
-				  		name="ssnCopy"/>
-				    <FlatButton containerElement='label' style={{width: 'auto'}}>
-		    				<i className="material-icons">add_circle</i>
-							<input style={{display: 'none'}} type="file"/>
-					</FlatButton>
+				    <TextField 	floatingLabelText='Upload SSN copy' 
+				    			floatingLabelStyle={floatingLabelStyle}
+				    			fullWidth={true}
+				    			underlineShow={false} 
+				    			defaultValue={thisForm.ssnCopy} 
+				    			value={thisForm.ssnCopy}
+				  				name='ssnCopy'/>
+				  	<form 	action='http://localhost:3001/fileupload'
+				  			ref={this.props.ssnFormRef}
+				  			name='ssnForm'
+				  			method='post'
+				  			encType='multipart/form-data'
+				  			target='ssnUploadTarget'>
+					    <FlatButton containerElement='label' 
+					    			style={{flex: 1, textAlign: 'right', paddingTop: '10px'}}>
+			    						<i className='material-icons'>add_circle</i>
+										<input 	type='file'
+												name='filetoupload'
+												style={{display: 'none'}}
+												onChange={this.onSSNCopySelection} />
+						</FlatButton>
+					</form>
 				</div>
 				<Divider />
 		    </Col>

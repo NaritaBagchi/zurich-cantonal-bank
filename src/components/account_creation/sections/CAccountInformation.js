@@ -5,13 +5,11 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { Row, Col } from 'react-bootstrap';
 
-const style = {
-  	marginLeft: 20,
-};
-
 const selectFieldStyle = {
-	width: "100%",
-    marginLeft: 20,
+	width: '100%',
+};
+const floatingLabelStyle = {
+	fontWeight: 'normal',
 };
 
 export default class CAccountInformation extends Component {
@@ -32,29 +30,41 @@ export default class CAccountInformation extends Component {
 	render() {
 		const thisForm = this.props.accountInfo;
 	  	return (
-	  	<Row>
+	  	<Row style={{height: '65vh', overflowX: 'hidden', overflowY: 'auto', margin: 0,padding: '0 20px'}}>
 		  	<Col sm={12} md={6}>
 			  	<SelectField 
-			  		defaultValue={thisForm.accType} value={thisForm.accType || 1}
-			  		floatingLabelText="Account type"
-			  		onChange={(event, index, value, x) => this.updateAccountType('accType', value)}
-			  		style={selectFieldStyle} autoWidth={false} underlineStyle={{display:'none'}}>
-		        	<MenuItem value={1} primaryText="Savings" />
-		        	<MenuItem value={2} primaryText="Deposit" />
+			  		defaultValue={thisForm.accType}
+			  		value={thisForm.accType || 1}
+			  		floatingLabelText='Account type'
+			  		floatingLabelStyle={floatingLabelStyle}
+			  		onChange={(event, index, value) => this.updateAccountType('accType', value)}
+			  		fullWidth={true}
+			  		autoWidth={false} 
+			  		underlineStyle={{display:'none'}}>
+			        	<MenuItem value={1} primaryText='Savings' />
+			        	<MenuItem value={2} primaryText='Deposit' />
         		</SelectField>
-			    <Divider />
-			    <TextField hintText="Purpose of bank account" style={style} 
-			    	underlineShow={false} defaultValue={thisForm.purpose} 
-			    	onChange={this.updateForm} name="purpose"/>
-			    <Divider />
-			    <TextField hintText="Where will the money come from?" style={style} 
-			    	underlineShow={false} defaultValue={thisForm.depositSource} 
-			    	onChange={this.updateForm} name="depositSource"/>
-			    <Divider />
-			    <TextField hintText="How did you hear about us?" style={style} 
-			    	underlineShow={false} defaultValue={thisForm.infoSource} 
-			    	onChange={this.updateForm} name="infoSource"/>
-			    <Divider />
+			    
+			    <TextField	floatingLabelText='Purpose of bank account'
+			    			floatingLabelStyle={floatingLabelStyle}
+			    			fullWidth={true}
+			    			defaultValue={thisForm.purpose} 
+			    			onChange={this.updateForm}
+			    			name='purpose'/>
+			    
+			    <TextField 	floatingLabelText='Where will the money come from?'
+			    			floatingLabelStyle={floatingLabelStyle}
+			    			fullWidth={true}
+			    	 		defaultValue={thisForm.depositSource} 
+			    			onChange={this.updateForm}
+			    			name='depositSource'/>
+			    
+			    <TextField 	floatingLabelText='How did you hear about us?' 
+			    			floatingLabelStyle={floatingLabelStyle}
+			    			fullWidth={true}
+			    			defaultValue={thisForm.infoSource} 
+			    			onChange={this.updateForm}
+			    			name='infoSource'/>
 		    </Col>
 	    </Row>);
 	}

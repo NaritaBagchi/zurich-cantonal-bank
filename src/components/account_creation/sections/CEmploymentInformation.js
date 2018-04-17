@@ -3,8 +3,8 @@ import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import { Row, Col } from 'react-bootstrap';
 
-const style = {
-  	marginLeft: 20,
+const floatingLabelStyle = {
+	fontWeight: 'normal',
 };
 
 export default class CEmploymentInformation extends Component {
@@ -15,24 +15,36 @@ export default class CEmploymentInformation extends Component {
 	render() {
 		const thisForm = this.props.employmentInfo;
 	  	return (
-		  	<Row>
+		  	<Row style={{height: '65vh', overflowX: 'hidden', overflowY: 'auto', margin: 0, padding: '0 20px'}}>
 			  	<Col sm={12} md={6}>
-				  	<TextField hintText="Employers Name" style={style} 
-				  		underlineShow={false} defaultValue={thisForm.employerName} 
-				  		onChange={this.updateForm} name="employerName"/>
-				    <Divider />
-				    <TextField hintText="Employers Address" style={style} 
-				    	underlineShow={false} defaultValue={thisForm.address} 
-				    	onChange={this.updateForm} name="address"/>
-				    <Divider />
-				    <TextField hintText="Work Phone" style={style} 
-				    	underlineShow={false} defaultValue={thisForm.workPhone} 
-				    	onChange={this.updateForm} name="workPhone"/>
-				    <Divider />
-				    <TextField hintText="Job Position" style={style} 
-				    	underlineShow={false} defaultValue={thisForm.jobPosition} 
-				    	onChange={this.updateForm} name="jobPosition"/>
-				    <Divider />
+				  	<TextField	floatingLabelText='Employers Name'
+				  				floatingLabelStyle={floatingLabelStyle} 
+				  				fullWidth={true}
+				  				defaultValue={thisForm.employerName} 
+				  				onChange={this.updateForm}
+				  				name='employerName'/>
+				    
+				    <TextField 	floatingLabelText='Employers Address'
+				    			floatingLabelStyle={floatingLabelStyle} 
+				    			fullWidth={true}
+				    			defaultValue={thisForm.address} 
+				    			onChange={this.updateForm}
+				    			name='address'/>
+				    
+				    <TextField 	floatingLabelText='Work Phone'
+				    			floatingLabelStyle={floatingLabelStyle} 
+				    			fullWidth={true}
+				    			defaultValue={thisForm.workPhone} 
+				    			onChange={this.updateForm}
+				    			name='workPhone'
+				    			type='number'/>
+				    
+				    <TextField 	floatingLabelText='Job Position'
+				    			floatingLabelStyle={floatingLabelStyle} 
+				    			fullWidth={true}
+				    			defaultValue={thisForm.jobPosition} 
+				    			onChange={this.updateForm}
+				    			name='jobPosition'/>
 			    </Col>
 		    </Row>);
 		}

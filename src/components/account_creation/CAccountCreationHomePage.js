@@ -22,14 +22,16 @@ export default class CAccountCreationHomePage extends Component {
     	showDefaultText: false,
   	};
 
-	handleDecline = () => {
+	handleTermsDismiss = () => {
 		this.setState({showTermsPage: false});
+		this.setState({showAccountCreationForm: false});
     	this.setState({showDefaultText: true});
   	};
 
-  	handleAgree = () => {
+  	handleTermsAgree = () => {
     	this.setState({showTermsPage: false});
     	this.setState({showAccountCreationForm: true});
+    	this.setState({showDefaultText: false});
   	};
 
 	render() {
@@ -38,9 +40,10 @@ export default class CAccountCreationHomePage extends Component {
 			<HomePageContainer>
 			<ToastContainer />
 				{this.state.showTermsPage && 
-					<CTermsPage handleAgree={this.handleAgree}
-								handleDecline={this.handleDecline}/>}
-				{this.state.showAccountCreationForm && <CAccountCreation/>}
+					<CTermsPage handleAgree={this.handleTermsAgree}
+								handleDecline={this.handleTermsDismiss}/>}
+				{this.state.showAccountCreationForm && 
+					<CAccountCreation/>}
 				{this.state.showDefaultText && <h1>Thank you for showing interest!</h1>}
 			</HomePageContainer>
 		);

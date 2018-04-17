@@ -104,12 +104,12 @@ export default class CInvoiceListing extends Component {
 			  	</Row>
 			  	<div style={{textAlign: 'right', position: 'relative', padding: '20px'}}>
                 	<FlatButton
-	                  label='Delete'
+	                  label={BUTTON_LABELS.DELETE}
 	                  style={{marginRight: 12}}
 	                  onClick={this.deleteInvoices}
                 	/>
 	                <RaisedButton
-	                  label='Approve'
+	                  label={BUTTON_LABELS.APPROVE}
 	                  primary={true}
 	                  onClick={this.approveInvoices}
 	                />

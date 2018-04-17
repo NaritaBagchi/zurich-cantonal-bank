@@ -10,8 +10,8 @@ import uuidv1 from 'uuid/v1';
 import { toast } from 'react-toastify';
 import update from 'immutability-helper';
 
-import { ERROR_MESSAGE } from '../../../Constants';
-import { compareActiveFormState } from '../../../utils/Utility';
+import { ERROR_MESSAGE, BUTTON_LABELS } from '../../../Constants';
+import { compareActiveFormState, invoiceFormInitialState } from '../../../utils/Utility';
 
 const floatingLabelStyle = {
 	fontWeight: 'normal',
@@ -88,10 +88,8 @@ export default class CInvoiceForm extends Component {
 
 	validateForm = () => {
 		for (var field in this.state.formData) {
-			if (field !== 'invoiceCopy') { //TODO - text field to have the uploaded file name
-				if (this.state.formData[field].toString().trim().length < 1) {
-					return false;
-				}
+			if (this.state.formData[field].toString().trim().length < 1) {
+				return false;
 			}
 		}
 		return true;
@@ -105,6 +103,9 @@ export default class CInvoiceForm extends Component {
 									 ...{iDate: iDateTimestamp, dueDate: dueDateTimestamp}};
 			if (this.state.editMode) {
 				this.props.putInvoice(invoiceData);
+				if (this.props.activeForm.invoiceCopy !== this.state.formData.invoiceCopy) {
+					this.refs.fileUploadForm.submit();
+				}
 			} else {
 				this.props.postInvoice(invoiceData);
 				this.refs.fileUploadForm.submit();
@@ -112,6 +113,17 @@ export default class CInvoiceForm extends Component {
 		} else {
 			toast.error(ERROR_MESSAGE.INVALID_FORM);
 		}
+	};
+
+	clearInvoiceForm = () => {
+		this.setState({
+			formData: invoiceFormInitialState
+		});
+		this.props.clearActiveInvoice();
+	};
+
+	onFileSelection = (event) => {
+		this.onChange({target: {name: 'invoiceCopy', value: event.target.files[0].name}});
 	};
 
 	render() {
@@ -124,7 +136,7 @@ export default class CInvoiceForm extends Component {
 					  				type='number'
 					  				floatingLabelStyle={floatingLabelStyle}
 					  				floatingLabelText='Invoice number'
-					  				underlineShow={true}
+					  				
 					    			fullWidth={true}
 					    			onChange={this.onChange}
 					    			errorText={this.state.errorTexts.iNumber}
@@ -136,7 +148,7 @@ export default class CInvoiceForm extends Component {
 					    			floatingLabelStyle={floatingLabelStyle}
 					    			floatingLabelText='Invoice Date'
 					    			fullWidth={true}
-					    			underlineShow={true}
+					    			
 					    			formatDate={new DateTimeFormat('en-US', {
 									        day: 'numeric',
 									        month: 'long',
@@ -144,7 +156,6 @@ export default class CInvoiceForm extends Component {
 									      }).format}
 					    			shouldDisableDate={this.disableFutureDates}
 					    			onChange={(noEvent, value) => this.onDateChange(value, 'iDate')}
-					    			onBlur={this.onBlurValidation}
 					    			errorText={this.state.errorTexts.iDate}	
 					    />
 					    
@@ -153,20 +164,20 @@ export default class CInvoiceForm extends Component {
 					    			type='number'
 					    			floatingLabelStyle={floatingLabelStyle}
 					    			floatingLabelText='Invoice amount'
-					    	 		underlineShow={true}
+					    	 		
 					    	 		fullWidth={true}
 					    	 		onChange={this.onChange}
 					    	 		onBlur={this.onBlurValidation}
 					    			errorText= {this.state.errorTexts.amount}
 					    />
 					    
-					    <DatePicker name="dueDate"
+					    <DatePicker name='dueDate'
 					    			value={this.state.formData.dueDate && new Date(this.state.formData.dueDate)}
 					    			floatingLabelStyle={floatingLabelStyle}
 					    			floatingLabelText="Invoice due date"
 					    	
 					    			fullWidth={true}
-					    			underlineShow={true} 
+					    			 
 					    			formatDate={new DateTimeFormat('en-US', {
 									        day: 'numeric',
 									        month: 'long',
@@ -174,39 +185,38 @@ export default class CInvoiceForm extends Component {
 									      }).format}
 					    			shouldDisableDate={this.disableFutureDates}
 					    			onChange={(noEvent, value) => this.onDateChange(value, 'dueDate')}
-					    			onBlur={this.onBlurValidation}
 					    			errorText={this.state.errorTexts.dueDate}
 					    />
 					</Col>
 					<Col sm={12} md={6}>
-					    <TextField	name="customerNumber"
+					    <TextField	name='customerNumber'
 								    value={this.state.formData.customerNumber}
-								    type="number"
+								    type='number'
 								    floatingLabelStyle={floatingLabelStyle}
 					    			floatingLabelText="Customer number"
 					    	
-					    	 		underlineShow={true} 
+					    	 		
 					    			fullWidth={true}
 					    			onChange={this.onChange}
 					    			errorText= {this.state.errorTexts.customerNumber}
 					    			onBlur={this.onBlurValidation}
 					    />
-					    <TextField 	name="customerCounty"
+					    <TextField 	name='customerCounty'
 								    value={this.state.formData.customerCounty}
 								    floatingLabelStyle={floatingLabelStyle}
 							    	floatingLabelText="Customer country"
 							    	fullWidth={true}
-							    	underlineShow={true} 
+							    	 
 							    	onChange={this.onChange}
 							    	onBlur={this.onBlurValidation}
 							    	errorText= {this.state.errorTexts.customerCounty}
 					    />
-					    <TextField 	name="iLineItems"
+					    <TextField 	name='iLineItems'
 								    value={this.state.formData.iLineItems}
 								    floatingLabelStyle={floatingLabelStyle}
 					    			floatingLabelText="Invoice line items"
 							    	fullWidth={true}
-							    	underlineShow={true} 
+							    	 
 							    	onChange={this.onChange}
 					    			onBlur={this.onBlurValidation}
 					    			errorText= {this.state.errorTexts.iLineItems}
@@ -217,7 +227,7 @@ export default class CInvoiceForm extends Component {
 							  		floatingLabelText="Upload invoice copy"
 							  		value={this.state.formData.invoiceCopy}
 							  		fullWidth={true}
-							  		underlineShow={true} 
+							  		 
 							  		name="invoiceCopy">
 							  	</TextField>
 						  	</div>
@@ -226,7 +236,10 @@ export default class CInvoiceForm extends Component {
 				    					method="post" encType="multipart/form-data" target="fileUploadTarget">
 				    				<FlatButton containerElement='label' style={{height: 'auto', textAlign: 'right', lineHeight: 0, paddingBottom: '5px', minWidth: 0}}>
 				    					<i className="material-icons">add_circle</i>
-										<input type="file" name="filetoupload" style={{display: 'none'}}/>
+										<input 	type="file"
+												name="filetoupload"
+												style={{display: 'none'}}
+												onChange={this.onFileSelection}/>
 									</FlatButton>
 								</form>
 							</div>
@@ -236,8 +249,13 @@ export default class CInvoiceForm extends Component {
 			  	</Row>
 			  	<iframe name="fileUploadTarget" style={{ display: 'none'}}></iframe>
 			  	<div style={{textAlign: 'right', margin: '20px'}}>
+			  		<FlatButton
+	                  	label={BUTTON_LABELS.RESET}
+	                  	style={{marginRight: 12}}
+						onClick={this.clearInvoiceForm}
+	                />
 	                <RaisedButton
-	                  	label="Submit"
+	                  	label={BUTTON_LABELS.SUBMIT}
 	                  	primary={true}
 						onClick={this.submitInvoice}
 	                />

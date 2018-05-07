@@ -79,7 +79,7 @@ const initialFormState = {
 	intervalId: 0
 };
 
-class CAccountCreation extends Component {
+export class CAccountCreation extends Component {
 
 	constructor(props) {
 		super(props);
@@ -139,7 +139,8 @@ class CAccountCreation extends Component {
 
 	restoreDraft = () => {
 		const formDraft = localStorage.getItem('formDraft');
-		if (formDraft !== null) {
+		// formDraft !== null TODO check
+		if (formDraft !== undefined) {
 			this.setState({formData: JSON.parse(formDraft)});
 		}
 	};
